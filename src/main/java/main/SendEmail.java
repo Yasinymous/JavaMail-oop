@@ -12,11 +12,13 @@ import javax.mail.internet.MimeMessage;
 
 public class SendEmail {
 
+    static Settings settings = new Settings();
     public static void send(String target,String[] sub) {
 
         String to = target;
         String from = "verification@yasinymous.com";
-        String host = "mail.test.com";
+        String host = settings.host;
+        System.out.println(settings.host);
 
         // Get system properties
         Properties properties = System.getProperties();
@@ -32,7 +34,7 @@ public class SendEmail {
 
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication("test", "test");
+                return new PasswordAuthentication(settings.mail, settings.pass);
 
             }
 
@@ -49,7 +51,7 @@ public class SendEmail {
             msg.setText(sub[1]);
             System.out.println("sending...");
             Transport.send(msg);
-            System.out.println("Sent message successfully....");
+            System.out.println("Send message successfully....");
         } catch (MessagingException mex) {
             mex.printStackTrace();
         }

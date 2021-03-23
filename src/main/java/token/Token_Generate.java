@@ -4,15 +4,16 @@ package token;
 import java.util.*;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class Token_Generate extends Token {
 
-    public String read_file() throws IOException {
+    public List read_file() throws IOException {
         //File file = new File("src/main/java/token/charlist.txt");
 
         List charlist = new ArrayList();
         FileReader inputStream = null;
-
 
         try {
             inputStream = new FileReader("src/main/java/token/charlist.txt");
@@ -27,26 +28,45 @@ public class Token_Generate extends Token {
                 inputStream.close();
             }
         }
-        return charlist.toString();
+        return charlist;
+    }
+
+    public String  random(List character){
+        for (int i = 1; i <= 6; i++) {
+            character.add(i);
+        }
+        Collections.shuffle(character);
+
+        String token = "";
+        if (character.isEmpty()){
+            System.out.println("empty list");
+        }
+        for (int i = 0; i < character.size(); i++) {
+            token+= character.get(i);
+        }
+        return token;
     }
 
 
-    public Token token_date(){
-
-        return token_date();
+    public Date token_date(){
+        Date token_generate_date = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd H:m:s:S");
+        //System.out.println(df.format(token_generate_date));
+        return token_generate_date;
     }
-    public Token token_key(){
+    public String  token_key() throws IOException {
 
-        return token_key();
-    }
-
-    public Token token_generate(){
-
-
-
-        return token_generate();
+        return random(read_file());
     }
 
-
+    public String token_generate() throws IOException {
+        setToken(random(read_file()));
+        setKey(token_key());
+        setDate(token_date());
+        System.out.println(getToken());
+        System.out.println(getKey());
+        System.out.println(getDate());
+        return getToken();
+    }
 
 }
