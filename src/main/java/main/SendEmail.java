@@ -16,7 +16,7 @@ public class SendEmail {
     public static void send(String target,String[] sub) {
 
         String to = target;
-        String from = "verification@yasinymous.com";
+        String from = settings.mail;
         String host = settings.host;
         System.out.println(settings.host);
 

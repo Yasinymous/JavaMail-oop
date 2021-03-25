@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="smtp-1.6.2">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/Downloads/smtp-1.6.2.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
   </library>

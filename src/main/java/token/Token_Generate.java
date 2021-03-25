@@ -1,6 +1,6 @@
 package token;
 
-
+import java.util.concurrent.TimeUnit;
 import java.util.*;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class Token_Generate extends Token {
 
             int con;
             while ((con = inputStream.read()) != -1) {
-                //System.out.print((char)con); test
+                //System.out.print((char)con);test
                 charlist.add((char)con);
             }
         } finally {
@@ -50,7 +50,7 @@ public class Token_Generate extends Token {
 
     public Date token_date(){
         Date token_generate_date = new Date();
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd H:m:s:S");
+        //DateFormat df = new SimpleDateFormat("yyyy/MM/dd H:m:s:S");
         //System.out.println(df.format(token_generate_date));
         return token_generate_date;
     }
@@ -64,9 +64,30 @@ public class Token_Generate extends Token {
         setKey(token_key());
         setDate(token_date());
         System.out.println(getToken());
-        System.out.println(getKey());
-        System.out.println(getDate());
+        //System.out.println(getKey());
+        //System.out.println(getDate());
         return getToken();
     }
+
+    public long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+    }
+
+    public boolean date_control(Date date, int time){
+        Date date_control = new Date();
+        DateFormat ms = new SimpleDateFormat("ms");
+        int fark = (int) getDateDiff(date,date_control,TimeUnit.MINUTES);
+        if (fark<=time){ return true;}
+        return false;
+    }
+
+    public boolean token_control(String token){
+        if (getToken().equals(token) && date_control(getDate(),2) == true){ return true; }
+        return false;
+    }
+
+
+
 
 }

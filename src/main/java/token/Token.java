@@ -15,6 +15,7 @@ public class Token {
 
     public Token() {
     }
+
     public Token(String token, String key, Date date) {
         this.token = token;
         this.key = key;
