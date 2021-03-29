@@ -77,7 +77,8 @@ public class Base {
             System.out.println(e.getMessage());
         }
     }
-    private Connection connect() {
+
+    Connection connect() {
         // SQLite connection string
         String url = "jdbc:sqlite:src/main/java/user.db";
         Connection conn = null;
@@ -189,6 +190,26 @@ public class Base {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+
+    public boolean user_control(int value) throws SQLException {
+        String sql = "SELECT uid "
+                + "FROM USER WHERE uid = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt  = conn.prepareStatement(sql)){
+            // set the value
+            pstmt.setInt(1,value);
+            //
+            ResultSet rs  = pstmt.executeQuery();
+            if (!rs.next())
+                return false;
+
+            else
+                return true;
+
         }
     }
 
