@@ -6,7 +6,6 @@ public class User {
     private String mail;
     private boolean status;
 
-
     public User(){
     }
 
@@ -48,5 +47,6 @@ public class User {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
 }
 

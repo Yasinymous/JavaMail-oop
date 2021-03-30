@@ -49,8 +49,8 @@ public class Base {
 
         // SQL statement for creating a new table
         String sql = "CREATE TABLE if not exists USER " +
-                "(uid INT PRIMARY KEY NOT NULL," +
-                " username CHAR(50) NOT NULL, " +
+                "(uid INTEGER PRIMARY KEY AUTOINCREMENT," +
+                " username CHAR(50) UNIQUE NOT NULL, " +
                 " mail text UNIQUE, " +
                 " verified int DEFAULT 0)";
 
@@ -63,15 +63,14 @@ public class Base {
         }
     }
 
-    public void user_insert(int uid, String username, String mail, int verification) {
-        String sql = "INSERT INTO USER(uid,username,mail,verified) VALUES(?,?,?,?)";
+    public void user_insert(String username, String mail, int verification) {
+        String sql = "INSERT INTO USER(username,mail,verified) VALUES(?,?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, uid);
-            pstmt.setString(2, username);
-            pstmt.setString(3, mail);
-            pstmt.setDouble(4, verification);
+            pstmt.setString(1, username);
+            pstmt.setString(2, mail);
+            pstmt.setDouble(3, verification);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -109,7 +108,7 @@ public class Base {
         }
     }
 
-    public void user_searh(int uid){
+    public void user_search(int uid){
         String sql = "SELECT uid, username, mail, verified "
                 + "FROM USER WHERE uid = ?";
 
@@ -133,31 +132,6 @@ public class Base {
         }
     }
 
-    public void user_verified(int value){
-        String sql = "SELECT uid, username, mail, verified "
-                + "FROM USER WHERE verified = ?";
-
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt  = conn.prepareStatement(sql)){
-
-            // set the value
-            pstmt.setInt(1,value);
-            //
-            ResultSet rs  = pstmt.executeQuery();
-
-            // loop through the result set
-            while (rs.next()) {
-                System.out.println(rs.getInt("uid") +  "," +
-                        rs.getString("username") + "," +
-                        rs.getString("mail") + "," +
-                        rs.getInt("verified"));
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-
-    }
 
     public void user_update(int uid, String username, String mail) {
         String sql = "UPDATE USER SET username = ? , "
@@ -194,22 +168,37 @@ public class Base {
     }
 
 
-    public boolean user_control(int value) throws SQLException {
-        String sql = "SELECT uid "
-                + "FROM USER WHERE uid = ?";
+    public boolean user_username(String username) throws SQLException {
+        String sql = "SELECT username "
+                + "FROM USER WHERE username = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt  = conn.prepareStatement(sql)){
             // set the value
-            pstmt.setInt(1,value);
+            pstmt.setString(1, username);
             //
             ResultSet rs  = pstmt.executeQuery();
             if (!rs.next())
                 return false;
-
             else
                 return true;
+        }
+    }
 
+    public boolean user_mail(String mail) throws SQLException {
+        String sql = "SELECT mail "
+                + "FROM USER WHERE mail = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt  = conn.prepareStatement(sql)){
+            // set the value
+            pstmt.setString(1, mail);
+            //
+            ResultSet rs  = pstmt.executeQuery();
+            if (!rs.next())
+                return false;
+            else
+                return true;
         }
     }
 
