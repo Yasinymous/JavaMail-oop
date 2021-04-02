@@ -16,18 +16,33 @@ public class Register{
     Scanner scanner = new Scanner(System.in);
     SendEmail sendemail = new SendEmail();
 
-    public int username_control(String username) throws SQLException {
-        if (!base.user_username(username))
-            return 0;
+
+    public void register() throws SQLException, IOException {
+        System.out.println("Register");
+        System.out.print("Username : ");
+        String username = scanner.next();
+        System.out.print("Mail : ");
+        String mail = scanner.next();
+
+        if (username_control(username))
+            System.out.println("kullanici adi kullaniliyor...");
+        if (mail_control(mail))
+            System.out.println("mail kullaniliyor...");
         else
-            return 1;
+            user_register(username,mail);
     }
 
-    public int mail_control(String mail) throws SQLException {
-        if (!base.user_mail(mail))
-            return 0;
+    public boolean username_control(String username) throws SQLException {
+        if (base.user_username(username))
+            return true;
         else
-            return 1;
+            return false;
+    }
+
+    public boolean mail_control(String mail) throws SQLException {
+        if (base.user_mail(mail))
+            return true;
+        return false;
     }
 
     public void user_register(String username,String mail) throws IOException {

@@ -167,6 +167,7 @@ public class Base {
         }
     }
 
+ // register controller
 
     public boolean user_username(String username) throws SQLException {
         String sql = "SELECT username "
@@ -195,10 +196,56 @@ public class Base {
             pstmt.setString(1, mail);
             //
             ResultSet rs  = pstmt.executeQuery();
-            if (!rs.next())
-                return false;
-            else
+            if (rs.next())
                 return true;
+            return false;
+        }
+    }
+
+    // login controller
+
+
+    public String user_loginname(String username) throws SQLException {
+        String sql = "SELECT uid, username, mail, verified "
+                + "FROM USER WHERE username = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt  = conn.prepareStatement(sql)){
+
+            // set the value
+            pstmt.setString(1,username);
+            //
+            ResultSet rs  = pstmt.executeQuery();
+
+            // loop through the result set
+            String[] test = {username, "null"};
+            if (rs.next())
+                return rs.getString("mail");
+            return "invalid username";
+        }
+    }
+
+    public void login_info(String username){
+        String sql = "SELECT uid, username, mail, verified "
+                + "FROM USER WHERE username = ?";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt  = conn.prepareStatement(sql)){
+
+            // set the value
+            pstmt.setString(1,username);
+            //
+            ResultSet rs  = pstmt.executeQuery();
+
+            // loop through the result set
+            while (rs.next()) {
+                System.out.println(rs.getInt("uid") +  "," +
+                        rs.getString("username") + "," +
+                        rs.getString("mail") + "," +
+                        rs.getInt("verified"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
