@@ -133,23 +133,26 @@ public class Base {
     }
 
 
-    public void user_update(int uid, String username, String mail) {
-        String sql = "UPDATE USER SET username = ? , "
-                + "mail = ? "
+
+
+    public boolean update(int uid, String username) {
+        String sql = "UPDATE USER SET username = ? "
                 + "WHERE uid = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // set the corresponding param
-            pstmt.setString(2, username);
-            pstmt.setString(3, mail);
+            pstmt.setString(1, username);
+            pstmt.setInt(2, uid);
             // update
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            return false;
         }
+        return true;
     }
+
 
     public void user_delete(int uid) {
         String sql = "DELETE FROM User WHERE uid = ?";
@@ -161,7 +164,6 @@ public class Base {
             pstmt.setInt(0, uid);
             // execute the delete statement
             pstmt.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -225,15 +227,15 @@ public class Base {
         }
     }
 
-    public void login_info(String username){
+    public void login_info(int uid){
         String sql = "SELECT uid, username, mail, verified "
-                + "FROM USER WHERE username = ?";
+                + "FROM USER WHERE uid = ?";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt  = conn.prepareStatement(sql)){
 
             // set the value
-            pstmt.setString(1,username);
+            pstmt.setInt(1,uid);
             //
             ResultSet rs  = pstmt.executeQuery();
 
@@ -249,6 +251,19 @@ public class Base {
         }
     }
 
+    public int get_uid(String username) throws SQLException {
+        String sql = "SELECT uid, username, mail, verified "
+                + "FROM USER WHERE username = ?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt  = conn.prepareStatement(sql)){
+
+            // set the value
+            pstmt.setString(1,username);
+            //
+            ResultSet rs  = pstmt.executeQuery();
+            return rs.getInt("uid");
+        }
+    }
 
 
 }

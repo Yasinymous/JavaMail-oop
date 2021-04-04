@@ -1,14 +1,9 @@
-package main;
+package mail;
 
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class SendEmail {
 
@@ -41,7 +36,7 @@ public class SendEmail {
         });
 
         // Used to debug SMTP issues
-        session.setDebug(true);
+        session.setDebug(false);
 
         try {
             MimeMessage msg = new MimeMessage(session);
@@ -54,6 +49,7 @@ public class SendEmail {
             System.out.println("Send message successfully....");
         } catch (MessagingException mex) {
             mex.printStackTrace();
+
         }
 
     }
