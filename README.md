@@ -24,7 +24,8 @@
 
 >Used libraries
 >[> Database ](https://www.sqlitetutorial.net/sqlite-java/r)
-[- Mail Verification](https://javaee.github.io/javamail/)
+
+>[> Mail Verification](https://javaee.github.io/javamail/)
 
 **Used script**
 >[> sendmail ](https://github.com/Yasinymous/Java_MailScript)
