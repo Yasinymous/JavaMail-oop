@@ -22,7 +22,8 @@
 
 >[> User, Register, Login, Settings classes and functions](https://github.com/Yasinymous/JavaMail-oop/tree/main/src/main/java/user)
 
->Used libraries
+**Used libraries**
+
 >[> Database ](https://www.sqlitetutorial.net/sqlite-java/r)
 
 >[> Mail Verification](https://javaee.github.io/javamail/)
